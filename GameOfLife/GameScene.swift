@@ -38,6 +38,34 @@ class GameScene: SKScene {
             self.stepSimulation()
         }
         
+        //Create an SKAction based timer, 0.5 second delay
+        let delay = SKAction.wait(forDuration: 0.5)
+        
+        //Call the stepSimulation() method to advance the simulation
+        let callMethod = SKAction.perform(#selector(GameScene.stepSimulation), onTarget: self)
+        
+        //Create the delay, step cycle
+        let stepSequence = SKAction.sequence([delay,callMethod])
+        
+        //Create an infinite simulation loop
+        let simulation = SKAction.repeatForever(stepSequence)
+        
+        //Run simulation action
+        self.run(simulation)
+        
+        //Default simulation to pause state
+        self.isPaused = true
+        
+        //Setup play button selected handler
+        playButton.selectedHandler = {
+            self.isPaused = false
+        }
+        
+        //Setup pause button selected handler
+        pauseButton.selectedHandler = {
+            self.isPaused = true
+        }
+        
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
